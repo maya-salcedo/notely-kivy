@@ -1,0 +1,102 @@
+#: import Factory kivy.factory.Factory
+
+<Screen>:
+    canvas:
+        Color:
+            rgb: .1, .05, .2
+        Rectangle:
+            size: self.size
+
+<MutableLabelTextInput@MutableTextInput>:
+    Label:
+        id: w_label
+        pos: root.pos
+        text: root.text
+
+    TextInput:
+        id: w_textinput
+        pos: root.pos
+        text: root.TextInput
+        multiline: root.multiline
+        on_focus: root.check_focus_and_view(self)
+
+<MutableRstTextInput@MutableTextInput>:
+    RstDocument:
+        id: w_label
+        pos: root.pos
+        text: root.text
+
+    TextInput:
+            id: w_textinput
+            pos: root.pos
+            text: root.TextInput
+            multiline: root.multiline
+            on_focus: root.check_focus_and_view(self)
+
+<NoteView>:
+    on_note_content : app.set_not_content(self.note_index, self.note_content)
+    on_note_title: app.set_note_title(self.note_index, self.note_title)
+
+    BoxLayout:
+        orientation: "vertical"
+
+        BoxLayout:
+            orientation: "horizontal"
+            height: "48dp"
+            padding: "5dp"
+            size_hint_y: None
+
+            canvas:
+                Color:
+                    rgb: .3, .3, .3
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+                Button:
+                    text: '<'
+                    size_hint_x: None
+                    width: self.height
+                    on_press: app.go_notes()
+                MutableLabelTextInput:
+                    text: root.note_title
+                    font_size: "16sp"
+                    multiline: False
+                    on_text: root.note_title = self.text
+                Button:
+                    text: "X"
+                    size_hint_x: None
+                    width: self.height
+                    on_release: app.del_not(root.note_index)
+
+            MutableRstDocumentTextInput:
+                text: root.note_content
+                on_text: root.note_content = self.text
+
+<NoteListItem>:
+    height: "48sp"
+    size_hint_y: None
+
+    canvas:
+        Color:
+            rgb: .3, .3, .3
+        Rectangle:
+            pos: self.pos
+            size: self.width, 1
+    BoxLayout:
+        padding: "5dp"
+        Label:
+            text: root.note_title
+        Button:
+            text: ">"
+            width: "50dp"
+            size_hint_x: None
+            background_normal: "icons/red_button_normal.png"
+            background_down: "icons/red_button_down.png"
+            on_release: app.edit_note
+
+
+
+
+
+
